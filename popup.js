@@ -1,5 +1,5 @@
 $(function(){
-
+    
     chrome.storage.sync.get('headline',function(obj){
         $('#headline').text(obj.headline);
 
@@ -9,7 +9,7 @@ $(function(){
             if (xmlhttp.readyState == XMLHttpRequest.DONE) {
                 console.log(xmlhttp.status);
                 if (xmlhttp.status == 200) {
-                    let articles = JSON.parse(xmlhttp.responseText).articles;
+                    let articles = JSON.parse(xmlhttp.responseText);
                     generateTemplate(articles);
                 } else {
                     document.getElementById('error').style.display = "block"
@@ -19,12 +19,13 @@ $(function(){
 
         // Place your api key which you get from https://newsapi.org/
         query = obj.headline;
-
-        var punctuationless = query.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
-        query = punctuationless.replace(/\s{2,}/g," ");
+        query = query.replace("%20"," ")
+        // console.log(query);
+        // var punctuationless = query.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+        // query = punctuationless.replace(/\s{2,}/g," ");
         
-        // url = `https://newsapi.org/v2/everything?q=Apple&from=2021-09-25&sortBy=popularity&apiKey=API_KEY`
-        url = `https://gnews.io/api/v4/search?q=${query}&lang=en&token=c65f1268c3eac2c4b50d943a709aa8de`
+        url = 'http://127.0.0.1:5000/news/'+query
+        // url = `https://gnews.io/api/v4/search?q=${query}&lang=en&token=1cd6508cc51c3072bbd892ca2d30f886`
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
 
@@ -35,15 +36,12 @@ $(function(){
             for (let i = 0; i < 10; i++) {
                 let current = newsArray[i];
                 template += `<br><div class="news row">
-                                <div class="col-md-3">
-                                    <img src="${current.image}">
-                                </div>
-                                <div class="col-md-9">
-                                    <h3>${current.title}</h3>
-                                    <p>${current.description}</p>
-                                    <h6> <a href=${current.url}>Link to full article</a></h6>
-                                    <h6> Source: ${current.source.name} </h6>
-                                    <h6> Published ${current.publishedAt} </h6>
+                                <div class="col-md-12">
+                                    <h3>${current['title']}</h3>
+                                    <p>${current['desc']}</p>
+                                    <h6> <a href=${current['link']}>Link to full article</a></h6>
+                                    <h6> Source: ${current['media']} </h6>
+                                    <h6> Published ${current['date']} </h6>
                                 </div>
                                 </div><hr>`
             }
