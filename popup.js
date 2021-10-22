@@ -7,7 +7,6 @@ $(function(){
 
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-                console.log(xmlhttp.status);
                 if (xmlhttp.status == 200) {
                     let articles = JSON.parse(xmlhttp.responseText);
                     generateTemplate(articles);
@@ -19,12 +18,11 @@ $(function(){
 
         // Place your api key which you get from https://newsapi.org/
         query = obj.headline;
-        query = query.replace("%20"," ")
         // console.log(query);
         // var punctuationless = query.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
         // query = punctuationless.replace(/\s{2,}/g," ");
         
-        url = 'http://127.0.0.1:5000/news/'+query
+        url = 'http://127.0.0.1:5000/'+query
         // url = `https://gnews.io/api/v4/search?q=${query}&lang=en&token=1cd6508cc51c3072bbd892ca2d30f886`
         xmlhttp.open("GET", url, true);
         xmlhttp.send();
@@ -40,7 +38,7 @@ $(function(){
                                     <h3>${current['title']}</h3>
                                     <p>${current['desc']}</p>
                                     <h6> <a href=${current['link']}>Link to full article</a></h6>
-                                    <h6> Source: ${current['media']} </h6>
+                                    <h6> Source: ${current['site']} </h6>
                                     <h6> Published ${current['date']} </h6>
                                 </div>
                                 </div><hr>`
