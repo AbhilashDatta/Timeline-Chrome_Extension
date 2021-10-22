@@ -31,7 +31,7 @@ def get(headline):
         if len(req_news)>2:
             break
 
-    return jsonify(res)
+    return jsonify(req_news)
 
 
 if __name__ == '__main__':
