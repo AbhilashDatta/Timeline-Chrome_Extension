@@ -31,7 +31,7 @@ $(function(){
         function generateTemplate(newsArray) {
             
             let template = '';
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < newsArray.length; i++) {
                 let current = newsArray[i];
                 template += `<br><div class="news row">
                                 <div class="col-md-12">
